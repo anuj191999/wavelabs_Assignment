@@ -1,0 +1,73 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+/*
+   Approach used in below code.
+   
+    so basically i observed in the test case 
+    it is basically asking for total Number of Disonnected Components
+
+    base test case is :- you check if total no of Cable+1 is less than total no of work station
+     then you simply return -1
+
+   because   if total n node is prensent in space then at least n-1 cable required for connecting all node. 
+
+
+
+*/
+
+// Here i have written Dfs Algorithm.
+void Dfs(vector<int> adj[],int src,vector<bool> &visited)
+{
+        visited[src]=true;
+        
+        for(auto v:adj[src])
+        {
+            if(!visited[v])
+                Dfs(adj,v,visited);
+        }
+}
+    
+int solve(int n, vector<vector<int>>& con)
+{ 
+     // Here i am checking  if total  No. of calbe Connection+1 is less than total no
+     // of work station then connection is not possible because if there is n workstation
+     // then at least n-1 cable connection required.
+        if(con.size()+1<n)
+            return -1;      
+     
+    // here i am making adjancy list.   
+         vector<int> adj[n];
+        
+        for(int i=0;i<con.size();i++)
+        {
+                adj[con[i][0]].push_back(con[i][1]);
+                adj[con[i][1]].push_back(con[i][0]);   
+        }
+     // i am making vector which name is visited for checking which work station i have  
+     // visited or not               
+        vector<bool> visited(n,false);
+     
+        int ans=-1;     // basically i am here counting the components. and here i have
+        // initialise with  -1 because if we observed in pattern it is asking for total 
+        // disconnected components -1. 
+        for(int i=0;i<n;i++)
+        {
+            if(visited[i]==false)
+            {
+                ans++;
+                Dfs(adj,i,visited);  // calling Dfs Functon
+            }
+        }
+        
+        return ans;
+}
+
+int main()
+{
+   int n // size of vector;
+
+   vector<vector<int>> connection;  // which you already provide.
+
+   cout<<solve(n,connection) // this function  return output.
+}
